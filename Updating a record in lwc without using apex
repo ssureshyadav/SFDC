@@ -1,0 +1,25 @@
+import { updateRecord } from 'lightning/uiRecordApi';
+
+const fields = {};
+fields['Id'] = recordId; //populate it with current record Id
+fields['Target_Areas__c'] = this.selectedTargetareaString; //populate any fields which you want to update like this
+ 
+const recordInput = { fields };
+ 
+updateRecord(recordInput) .then(() => {
+        this.dispatchEvent(
+                new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Record updated',
+                        variant: 'success'
+                })
+        );
+}) .catch(error => {
+        this.dispatchEvent(
+                new ShowToastEvent({
+                        title: 'Error creating record',
+                        message: error.body.message,
+                        variant: 'error'
+                })
+        );
+});
