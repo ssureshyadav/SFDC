@@ -1,0 +1,21 @@
+<template>
+    <lightning-card  title={label.WelcomeLabel} variant="narrow">
+        <p>
+            <lightning-button label={label.NewCaseLabel}></lightning-button>
+        </p>
+        <p>{label.HomePageLabel}</p>
+    </lightning-card>
+</template>
+
+import { LightningElement } from 'lwc';
+// importing Custom Label
+import WelcomeLabel from '@salesforce/label/c.WelcomeNoteLabel';
+import HomePageLabel from '@salesforce/label/c.HomePageNewsLabel';
+import NewCaseLabel from '@salesforce/label/c.NewCaseLabel';
+export default class CustomLabelExampleLWC extends LightningElement {
+    label = {
+        WelcomeLabel,
+        HomePageLabel,
+        NewCaseLabel
+    };
+}
