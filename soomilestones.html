@@ -1,0 +1,687 @@
+<template>
+    <!-- <template if:true={isProd}>
+         <lightning-input type="checkbox" label="Same as R&D" onchange={copyRandD}></lightning-input><br>
+     </template>-->
+ <lightning-record-edit-form object-api-name="SOO__c" onsubmit={handleSubmit} onsuccess={handleSaveClick} record-id={recordId}>
+    <!-- I have verified and agreed-->
+    <div class="slds-col" style="display: none;">
+        <lightning-input-field field-name="MilestoneRDCompletion__c" ></lightning-input-field>
+        <lightning-input-field field-name="MilestoneProdCompletion__c"></lightning-input-field>
+    </div> 
+     <template if:true={isRd}>
+         <div class="slds-grid slds-gutters">
+             <!-- <div class="slds-col">
+                 <span class="slds-form-element__label">BM Agrees</span>
+                 <lightning-helptext content="This is BM only field. BM need to check the box if aligned"></lightning-helptext>
+                     <lightning-input-field label="BM Agrees" field-name="BM_Agrees_MilestoneRD__c" variant="label-hidden" onchange={handleBUBM}></lightning-input-field>
+             </div> -->
+                <template if:true={createrdNewRecords}>
+                    <div class="slds-col" style="margin-top: 2em;">
+                    <lightning-input type="checkbox" label="Auto Create All Milestones" checked={autoPopulateRD} disabled={disableautoPopulateRD} onchange={autoPopulateRDchange} field-level-help="Check this field to auto create target milestones. You can delete any milestones not applicable."></lightning-input>
+                    </div>
+                </template>
+                <div class="slds-col" style="width: 70%;"></div>
+         </div>
+     </template>
+     <template if:true={isProd}>
+         <div class="slds-grid slds-gutters">
+             <!-- <div class="slds-col">
+                 <span class="slds-form-element__label">BM Agrees</span>
+                 <lightning-helptext content="This is BM only field. BM need to check the box if aligned"></lightning-helptext>
+                     <lightning-input-field label="BM Agrees" field-name="BM_Agrees_MilestoneProd__c" variant="label-hidden" onchange={handleBUBM}></lightning-input-field>
+             </div> -->
+             <template if:true={createProdNewRecords}>
+                <div class="slds-col" style="margin-top: 2em;">
+                    <lightning-input type="checkbox" label="Auto Create All Milestones" checked={autoPopulateProd} disabled={disableautoPopulateProd} onchange={autoPopulateProdchange} field-level-help="Check this field to auto create target milestones. You can delete any milestones not applicable."></lightning-input>
+                </div>
+            </template>
+             <div class="slds-col" style="width: 70%;"></div>
+         </div>
+     </template>
+     <br/>
+     <template if:true={isRd}>
+             <!--<div style="width:150%;">-->
+                 <!-- <h3 class="slds-section__title">
+                     <button aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action" style="background:#2b2b6a">
+                     
+                         <span class="slds-truncate" title="Milestone Details" style="text-align:left;color:#FFFFFF;height: 30px;text-transform:None;font-size: 15px;">Section 7. Milestone Details R&amp;D</span>
+                     </button> 
+                 </h3> -->
+                 <article class="slds-tabs_card" style="margin-top: 10px;--lwc-varSpacingVerticalSmall: 0;--lwc-varSpacingHorizontalMedium: 0;">
+                    <div class="slds-card__header slds-grid" style="padding: 0.5rem;background-color:rgb(69, 153, 195);">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                            <h2 class="slds-card__header-title" style="color: white;">
+                                                <span>Section 7. Milestone Details R&amp;D</span>
+                                            </h2>
+                            </header>
+                    </div>
+                    <div class="slds-card__body" style="padding-left: 1rem;
+                    padding-right: 1rem; padding-bottom: 0.5rem;">
+                    <div class="slds-card scrollArea">
+                        <!-- style="overflow:auto;" -->
+                        <div>
+                    <table class="slds-table slds-table--bordered" data-id="MainTable">
+                        <thead>
+                        <tr>
+                            <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;">
+                                <div class="slds-col slds-align_absolute-center"
+                                   style="background-color: white;padding-bottom: 25px;">
+                                   <span>Delete</span>
+                                </div>
+                             </th>
+                            <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                               <div class="slds-col slds-align_absolute-center"
+                                  style="background-color: white;width:10rem;padding-bottom: 25px;">
+                                  <span>Milestone Name</span>
+                               </div>
+                            </th>
+                            <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col slds-align_absolute-center"
+                                   style="background-color: white;width:10rem;padding-bottom: 25px;">
+                                   <span>TAMBA ID</span>
+                                </div>
+                             </th>
+                             <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col slds-align_absolute-center"
+                                   style="background-color: white;width:10rem;padding-bottom: 25px;">
+                                   <span>Application Name</span>
+                                </div>
+                             </th>
+                             <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                 <div class="slds-col slds-align_absolute-center"
+                                    style="background-color: white;width:10rem;padding-bottom: 25px;">
+                                    <span>Customer Engagement</span>
+                                 </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col slds-align_absolute-center"
+                                   style="background-color: white;width:10rem;padding-bottom: 25px;color:blue">
+                                   <span>Target Milestone</span>
+                                </div>
+                             </th>
+                             <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                 <div class="slds-col slds-align_absolute-center"
+                                    style="background-color: white;width:10rem;padding-bottom: 25px;color:blue">
+                                    <span>Milestone Due Date
+                                    </span>
+                                 </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col"
+                                style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                                <div class="slds-align_absolute-center slds-p-around_none">SIP Objective</div></br>
+                                <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                                </div>
+                             </th>
+                             <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                 <div class="slds-col slds-align_absolute-center"
+                                    style="background-color: white;width:8rem;padding-bottom: 25px;">
+                                    <span>SIP REQ</span>
+                                 </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                 <div class="slds-col slds-align_absolute-center"
+                                    style="background-color: white;width:8rem;padding-bottom: 25px;">
+                                    <span>Reason</span>
+                                 </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col"
+                                style="background-color: white; width: 165px;line-height: 10px;margin-top: -10px;">
+                                <div class="slds-align_absolute-center slds-p-around_none">Milestone Objective</div></br>
+                                <div class="slds-align_absolute-center slds-p-around_none">Details/SIP Justification</div>
+                                </div>
+                             </th>
+                             <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col"
+                                style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;color:blue">
+                                <div class="slds-align_absolute-center slds-p-around_none">Milestone Status</div></br>
+                                <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                                </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col"
+                                style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                                <div class="slds-align_absolute-center slds-p-around_none">Proof of Achieved</div></br>
+                                <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                                </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col slds-align_absolute-center"
+                                   style="background-color: white;width:7rem;padding-bottom: 25px;">
+                                   <span>DTOR Date</span>
+                                </div>
+                             </th>
+                             <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                 <div class="slds-col slds-align_absolute-center"
+                                    style="background-color: white;width:7rem;padding-bottom: 25px;">
+                                    <span>PTOR Date</span>
+                                 </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col slds-align_absolute-center"
+                                   style="background-color: white;width:7rem;padding-bottom: 25px;">
+                                   <span>P-TAMBA Year</span>
+                                </div>
+                             </th>
+                             <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col"
+                                style="background-color: white; width: 170px;line-height: 10px;margin-top: -10px;">
+                                <div class="slds-align_absolute-center slds-p-around_none">Primary Reason for</div></br>
+                                <div class="slds-align_absolute-center slds-p-around_none">Loss (Owned by BM)</div>
+                                </div>
+                              </th>
+                              <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                                <div class="slds-col"
+                                style="background-color: white; width: 150px;line-height: 10px;margin-top: -10px;">
+                                <div class="slds-align_absolute-center slds-p-around_none">Additional Information</div></br>
+                                <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                                </div>
+                             </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+         <template if:true={tambaArray}>
+             <template  for:each={objcmpcount} for:item="obj">
+                 <c-create-milestones key={obj.label} type='RD' selectedvalue={obj.label} milestone={obj.value} 
+                 lstrdtargetmilestone={lstRDTargetMilestone} lstprodtargetmilestone={lstProdTargetMilestone} tambarecords={tambaArray} maptamba={maptamba} 
+                 rdmilestonecount={rdmilestonecount} ondeleteselected={handledeletedvalue} onvaluechanged={handlerValueChange} 
+                 onerror={handleError} has-status-access={hasStatusAccess} hasaccess={hasAccess} hasdeleteaccess={hasDeleteAccess}
+                 has-midyear-s-i-p-r-e-q-edit-access={hasMidyearSIPREQEditAccess} has-midyear-s-i-p-r-e-q-read-access={hasMidyearSIPREQReadAccess}
+                 has-reason-edit-access={hasReasonEditAccess} has-reason-read-access={hasReasonReadAccess}
+                 has-comments-justifications-edit-access={hasCommentsJustificationsEditAccess} has-comments-justifications-read-access={hasCommentsJustificationsReadAccess}></c-create-milestones>
+             </template>
+             
+             <div style="float: left;padding-top: 10px;">
+                 <lightning-button-icon icon-name="utility:add" variant="container" alternative-text="Add" class="slds-m-left_xx-small" onclick={createRDRecord}></lightning-button-icon>
+             </div>
+         </template>
+        </tbody>
+    </table>
+    </div>
+    </div>
+         </div>
+         </article>
+         <br/>
+         <br/>
+         <div class="slds-col" style="width:50%;">
+             <span class="slds-form-element__label" style=" font-weight: bold;">Comments</span>
+                 <lightning-input-field field-name="Comments_MilestoneRD__c" variant="label-hidden"></lightning-input-field>  
+                 <br/>
+                     <!-- <span class="slds-form-element__label" style=" font-weight: bold;">Proof of DTOR Achieved</span> -->
+                    <!-- <lightning-input-field field-name="Proof_of_DTOR_Achieved__c" variant="label-hidden"></lightning-input-field> -->
+         </div>
+             <!--</div>-->
+     </template>
+     <template if:true={isProd}>
+         <!-- <h3 class="slds-section__title">
+             <button aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action" style="background:#2b2b6a">
+             
+                 <span class="slds-truncate" title="Milestone Details" style="text-align:left;color:#FFFFFF;height: 30px;text-transform:None;font-size: 15px;">Section 8. Milestone Details Production</span>
+             </button> 
+         </h3> -->
+         <article class="slds-tabs_card" style="margin-top: 10px;--lwc-varSpacingVerticalSmall: 0;--lwc-varSpacingHorizontalMedium: 0;">
+            <div class="slds-card__header slds-grid" style="padding: 0.5rem;background-color:rgb(69, 153, 195);">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <h2 class="slds-card__header-title" style="color: white;">
+                                        <span>Section 7. Milestone Details Production</span>
+                                    </h2>
+                    </header>
+            </div>
+            <div class="slds-card__body" style="padding-left: 1rem;
+            padding-right: 1rem; padding-bottom: 0.5rem;">
+            <div class="slds-card scrollArea">
+                <!-- style="overflow:auto;" -->
+                <div>
+            <table class="slds-table slds-table--bordered" data-id="MainTable">
+                <thead>
+                <tr>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;padding-bottom: 25px;">
+                           <span>Delete</span>
+                        </div>
+                     </th>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                       <div class="slds-col slds-align_absolute-center"
+                          style="background-color: white;width:10rem;padding-bottom: 25px;">
+                          <span>Milestone Name</span>
+                       </div>
+                    </th>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;">
+                           <span>TAMBA ID</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;">
+                           <span>Application Name</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:10rem;padding-bottom: 25px;">
+                            <span>Customer Engagement</span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;color:blue">
+                           <span>Target Milestone</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:10rem;padding-bottom: 25px;color:blue">
+                            <span>Milestone Due Date
+                            </span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">SIP Objective</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:8rem;padding-bottom: 25px;">
+                            <span>SIP REQ</span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:8rem;padding-bottom: 25px;">
+                           <span>Reason</span>
+                        </div>
+                     </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 165px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Milestone Objective</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">Details/SIP Justification</div>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;color:blue">
+                        <div class="slds-align_absolute-center slds-p-around_none">Milestone Status</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Proof of Achieved</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:7rem;padding-bottom: 25px;">
+                           <span>DTOR Date</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:7rem;padding-bottom: 25px;">
+                            <span>PTOR Date</span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:7rem;padding-bottom: 25px;">
+                           <span>P-TAMBA Year</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 170px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Primary Reason for</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">Loss (Owned by BM)</div>
+                        </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 150px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Additional Information</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                     </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+             <template if:true={tambaArray}> 
+                 <template for:each={prodobjcmpcount} for:item="obj">
+                 <c-create-milestones key={obj.label} type='Production' selectedvalue={obj.label} milestone={obj.value} 
+                    lstrdtargetmilestone={lstRDTargetMilestone} lstprodtargetmilestone={lstProdTargetMilestone} tambarecords={tambaArray} 
+                    maptamba={maptamba} prodmilestonecount={prodmilestonecount} ondeleteselected={handleProddeletedvalue} 
+                    onvaluechanged={handlerProdValueChange} onerror={handleError} has-status-access={hasStatusAccess} hasaccess={hasAccess} hasdeleteaccess={hasDeleteAccess}
+                    has-midyear-s-i-p-r-e-q-edit-access={hasMidyearSIPREQEditAccess} has-midyear-s-i-p-r-e-q-read-access={hasMidyearSIPREQReadAccess}
+                 has-reason-edit-access={hasReasonEditAccess} has-reason-read-access={hasReasonReadAccess}
+                 has-comments-justifications-edit-access={hasCommentsJustificationsEditAccess} has-comments-justifications-read-access={hasCommentsJustificationsReadAccess}></c-create-milestones>
+                 </template>
+                 
+                 <div style="float: left;padding-top: 10px;">
+                     <lightning-button-icon icon-name="utility:add" variant="container" alternative-text="Add" class="slds-m-left_xx-small" onclick={createProdRecord}></lightning-button-icon>
+                 </div>
+            </template>
+        </tbody>
+    </table>
+    </div>
+    </div>
+            </div>
+            </article>
+            <!--<div style="display: none;">
+                 <button class="submitButton" type="button" onclick={handleSaveClick}>Save & Next</button>
+             </div> -->
+             <br/>
+             <br/>
+             <div class="slds-col" style="width:50%;">
+                 <span class="slds-form-element__label" style=" font-weight: bold;">Comments</span>
+                     <lightning-input-field field-name="Comments_MilestoneProd__c" variant="label-hidden"></lightning-input-field>  
+                     <br/>
+                     <!-- <span class="slds-form-element__label" style=" font-weight: bold;">Proof of DTOR Achieved</span> -->
+                    <!-- <lightning-input-field field-name="Proof_of_DTOR_Achieved__c" variant="label-hidden"></lightning-input-field> -->
+             </div>
+     </template>
+     <template if:true={isLite}>
+        <!-- <div class="slds-grid slds-gutters"> -->
+            <!-- <div class="slds-col">
+                <span class="slds-form-element__label">BM Agrees</span>
+                <lightning-helptext content="This is BM only field. BM need to check the box if aligned"></lightning-helptext>
+                    <lightning-input-field label="BM Agrees" field-name="BM_Agrees_MilestoneRD__c" variant="label-hidden" onchange={handleBUBM}></lightning-input-field>
+            </div> -->
+               <template if:true={createrdNewLiteRecords}>
+                   <div class="slds-col" style="margin-top: -20px;">
+                   <lightning-input type="checkbox" label="Auto Create All Milestones" checked={autoPopulateLite} disabled={disableautoPopulateLite} onchange={autoPopulateLitechange} field-level-help="Check this field to auto create target milestones. You can delete any milestones not applicable."></lightning-input>
+                  
+                </div>
+               </template>
+               <!-- <template if:true={createrdNewRecords}>
+                <div class="slds-col" style="margin-top: 2em;">
+                <lightning-input type="checkbox" label="Auto Populate" checked={autoPopulateRD} disabled={disableautoPopulateRD} onchange={autoPopulateRDchange}></lightning-input>
+                </div>
+            </template>
+               <div class="slds-col" style="width: 70%;"></div> -->
+        <!-- </div> -->
+        <!-- <h3 class="slds-section__title">
+            <button aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action" style="background:#2b2b6a">
+            
+                <span class="slds-truncate" title="Milestone Details" style="text-align:left;color:#FFFFFF;height: 30px;text-transform:None;font-size: 15px;">Section 4. Milestone Details</span>
+            </button> 
+        </h3> -->
+        <article class="slds-tabs_card" style="margin-top: 10px;--lwc-varSpacingVerticalSmall: 0;--lwc-varSpacingHorizontalMedium: 0;">
+            <div class="slds-card__header slds-grid" style="padding: 0.5rem;background-color:rgb(69, 153, 195);">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <h2 class="slds-card__header-title" style="color: white;">
+                                        <span>Section 4. Milestone Details</span>
+                                    </h2>
+                    </header>
+            </div>
+            <div class="slds-card__body" style="padding-left: 1rem;
+            padding-right: 1rem; padding-bottom: 0.5rem;">
+            <template if:true={tambaArray}>
+            <div class="slds-card scrollArea">
+                <!-- style="overflow:auto;" -->
+                <div>
+            <table class="slds-table slds-table--bordered" data-id="MainTable">
+                <thead>
+                <tr>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;padding-bottom: 25px;">
+                           <span>Delete</span>
+                        </div>
+                     </th>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                       <div class="slds-col slds-align_absolute-center"
+                          style="background-color: white;width:10rem;padding-bottom: 25px;">
+                          <span>Milestone Name</span>
+                       </div>
+                    </th>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;">
+                           <span>TAMBA ID</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;">
+                           <span>Application Name</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:10rem;padding-bottom: 25px;">
+                            <span>Customer Engagement</span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;color:blue">
+                           <span>Target Milestone</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:10rem;padding-bottom: 25px;color:blue">
+                            <span>Milestone Due Date
+                            </span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">SIP Objective</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:8rem;padding-bottom: 25px;">
+                            <span>SIP REQ</span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 165px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Milestone Objective</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">Details/SIP Justification</div>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;color:blue">
+                        <div class="slds-align_absolute-center slds-p-around_none">Milestone Status</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Proof of Achieved</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:7rem;padding-bottom: 25px;">
+                           <span>DTOR Date</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                         <div class="slds-col slds-align_absolute-center"
+                            style="background-color: white;width:7rem;padding-bottom: 25px;">
+                            <span>PTOR Date</span>
+                         </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:7rem;padding-bottom: 25px;">
+                           <span>P-TAMBA Year</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 170px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Primary Reason for</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">Loss (Owned by BM)</div>
+                        </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 150px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Additional Information</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                        </div>
+                     </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+            
+                <!-- <template for:each={objcmpcount} for:item="obj">
+                <c-create-milestones key={obj.label} type='Lite' selectedvalue={obj.label} milestone={obj.value} 
+                   lstlitetargetmilestone={lstLiteTargetMilestone} tambarecords={tambaArray} 
+                   maptamba={maptamba} prodmilestonecount={litemilestonecount} ondeleteselected={handledeletedvalue} 
+                   onvaluechanged={handlerValueChange} onerror={handleError} has-status-access={hasStatusAccess} hasaccess={hasAccess} hasdeleteaccess={hasDeleteAccess}
+                   has-midyear-s-i-p-r-e-q-edit-access={hasMidyearSIPREQEditAccess} has-midyear-s-i-p-r-e-q-read-access={hasMidyearSIPREQReadAccess}
+                has-reason-edit-access={hasReasonEditAccess} has-reason-read-access={hasReasonReadAccess}
+                has-comments-justifications-edit-access={hasCommentsJustificationsEditAccess} has-comments-justifications-read-access={hasCommentsJustificationsReadAccess}></c-create-milestones>
+                </template> -->
+                 
+                <template  for:each={objcmpcount} for:item="obj">
+                    <c-create-milestones key={obj.label} type='RD' subtype='Lite' selectedvalue={obj.label} milestone={obj.value}  prioritytamba={prioritytamba}
+                    lstrdtargetmilestone={lstLiteTargetMilestone} tambarecords={tambaArray} maptamba={maptamba} 
+                    rdmilestonecount={litemilestonecount} ondeleteselected={handledeletedvalue} onvaluechanged={handlerValueChange} 
+                    onerror={handleError} has-status-access={hasStatusAccess} hasaccess={hasAccess} hasdeleteaccess={hasDeleteAccess}
+                    has-midyear-s-i-p-r-e-q-edit-access={hasMidyearSIPREQEditAccess} has-midyear-s-i-p-r-e-q-read-access={hasMidyearSIPREQReadAccess}
+                    has-reason-edit-access={hasReasonEditAccess} has-reason-read-access={hasReasonReadAccess}
+                    has-comments-justifications-edit-access={hasCommentsJustificationsEditAccess} has-comments-justifications-read-access={hasCommentsJustificationsReadAccess}></c-create-milestones>
+                </template>
+            </tbody>
+        </table>
+        </div>
+        </div>
+                <div style="float: left;margin-top: 10px;">
+                    <lightning-button-icon icon-name="utility:add" variant="container" alternative-text="Add" class="slds-m-left_xx-small" onclick={createRDRecord}></lightning-button-icon>
+                </div>
+            
+           </template>
+        
+           <template if:true={noTamba}>
+            <div class="slds-card scrollArea">
+                <!-- style="overflow:auto;" -->
+                <div>
+            <table class="slds-table slds-table--bordered" data-id="MainTable">
+                <thead>
+                <tr>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;padding-bottom: 25px;">
+                           <span>Delete</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;">
+                           <span>Milestone Name</span>
+                        </div>
+                     </th>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                       <div class="slds-col"
+                        style="background-color: white; width: 150px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">No TAMBA Target</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">Milestone</div>
+                     </div>
+                    </th>
+                    <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;">
+                           <span>
+                            Milestone Due Date</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">SIP Objective</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                     </div>
+                     </th>
+                    
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col slds-align_absolute-center"
+                           style="background-color: white;width:10rem;padding-bottom: 25px;">
+                           <span>SIP REQ</span>
+                        </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 140px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Reason</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by Account)</div>
+                     </div>
+                     </th>
+                     <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Milestone Status</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                     </div>
+                      </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Proof of Achieved</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">(Owned by BM)</div>
+                     </div>
+                     </th>
+                      <th class="stickyHeaderfour slds-p-around_none" scope="col" colspan="1" style="background-color: white;text-align: -webkit-center;">
+                        <div class="slds-col"
+                        style="background-color: white; width: 115px;line-height: 10px;margin-top: -10px;">
+                        <div class="slds-align_absolute-center slds-p-around_none">Milestone Objective</div></br>
+                        <div class="slds-align_absolute-center slds-p-around_none">Details/SIP Justification</div>
+                     </div>
+                     </th>
+                    </tr>
+                </thead>
+                <tbody>
+            <template  for:each={objcmpcount} for:item="obj">
+                <c-create-milestones key={obj.label} type='RD' subtype='Lite' selectedvalue={obj.label} milestone={obj.value}  prioritytamba={prioritytamba}
+                lstrdtargetmilestone={lstLiteTargetMilestone} tambarecords={tambaArray} maptamba={maptamba} 
+                rdmilestonecount={litemilestonecount} ondeleteselected={handledeletedvalue} onvaluechanged={handlerValueChange} 
+                onerror={handleError} has-status-access={hasStatusAccess} hasaccess={hasAccess} hasdeleteaccess={hasDeleteAccess}
+                has-midyear-s-i-p-r-e-q-edit-access={hasMidyearSIPREQEditAccess} has-midyear-s-i-p-r-e-q-read-access={hasMidyearSIPREQReadAccess}
+                has-reason-edit-access={hasReasonEditAccess} has-reason-read-access={hasReasonReadAccess}
+                has-comments-justifications-edit-access={hasCommentsJustificationsEditAccess} has-comments-justifications-read-access={hasCommentsJustificationsReadAccess} onshowchecksip={showCheckSIP}></c-create-milestones>
+            </template>
+        </tbody>
+    </table>
+    </div>
+    </div>
+            <div style="float: left;margin-top: 10px;">
+                <lightning-button-icon icon-name="utility:add" variant="container" alternative-text="Add" class="slds-m-left_xx-small" onclick={createRDRecord}></lightning-button-icon>
+            </div>
+           </template>
+        
+           </div>
+           </article>
+           <!--<div style="display: none;">
+                <button class="submitButton" type="button" onclick={handleSaveClick}>Save & Next</button>
+            </div> -->
+            <!-- <div class="slds-col" style="width:50%;"> -->
+                <!-- <span class="slds-form-element__label" style=" font-weight: bold;">Proof of DTOR Achieved</span> -->
+                    <!-- <lightning-input-field field-name="Proof_of_DTOR_Achieved__c"></lightning-input-field>  
+            </div> -->
+    </template>
+     <div style="display: none;">
+         <lightning-button class="submitButton" type="submit" name="update" label="Save & Next"> </lightning-button>
+     </div>
+     
+ </lightning-record-edit-form>
+</template>
