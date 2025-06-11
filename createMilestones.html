@@ -1,0 +1,337 @@
+<template>
+    <template if:true={noTamba}>
+<!-- <table class="slds-table slds-table_cell-buffer slds-table_bordered"> -->
+    <tr>
+        <td style="width:0%;">
+            <template if:true={hasDeleteAccess}>
+            <lightning-button-icon icon-name="utility:delete" variant="container" alternative-text="Delete" class="slds-m-left_xx-small" onclick={deleteSelected}></lightning-button-icon>
+            </template>
+        </td>
+        <td style="width:4%;vertical-align: middle;">
+            <template if:true={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" value={localmilestone.Name} disabled></lightning-input> <!-- value={localmilestone.Application_Name__c}-->
+            </template>
+            <template if:false={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" disabled></lightning-input> <!-- value={localmilestone.Application_Name__c}-->
+            </template>
+        </td>
+        <td style="width:0%;">
+            <div class="form-group">
+                <!-- <label class="slds-form-element__label slds-no-flex">No TAMBA Target  Milestone</label> -->
+                <div>
+                    <select class="slds-select" onchange={handleNoTambamilepicklist} disabled={disableSIP}>
+                        <template  for:each={NoTAMBAmilepicklist} for:item="item">
+                                <option key={item} value={item} >{item}</option>
+                        </template>
+                    </select>
+                </div>
+        </div>
+            <!-- <label class="slds-form-element__label slds-no-flex">No Application Target Milestone</label>
+            <lightning-textarea type="text" variant="label-hidden" value={localmilestone.No_Application_Target_Milestone__c} onchange={handleNoAppTargetMilestn}></lightning-textarea> -->
+        </td>
+        <td style="width:0%;">
+            <!-- <label class="slds-form-element__label slds-no-flex" style="color: blue;">Milestone Due Date</label> -->
+                <lightning-input type="date" variant="label-hidden" value={localmilestone.Target_Date__c} onchange={handleTargetdate}></lightning-input>
+        </td>
+        <td style="width:0%;">
+            <div class="form-group">
+                <!-- <label class="slds-form-element__label slds-no-flex">SIP Objective (Owned by BM)</label> -->
+                <div>
+                    <select class="slds-select" onchange={handlesipobjectives} disabled={sipObjectivetrue}>
+                        <template  for:each={sipobjectives} for:item="item">
+                                <option key={item} value={item} >{item}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </td>  
+        
+            <td style="width:0%;">
+                <template if:true={checkSIPObjectiveValue}>
+               <!-- <label class="slds-form-element__label slds-no-flex">SIP REQ</label> -->
+                <lightning-combobox name="sipReq" value={sipReqvalue}
+                    options={sipReqs} onchange={handlesipReqs} variant="label-hidden" disabled={onSuccessfulldemo}></lightning-combobox>
+                </template>
+                </td>
+                
+            <td style="width:0%;">
+                <template if:true={displayReasonComments}>
+                <div class="form-group">
+                    <div>
+                        <!-- disabled={ReasonReadAccess} -->
+                        <select class="slds-select" onchange={handleReasonpicklist} >
+                            <template  for:each={reason} for:item="item">
+                                    <option key={item} value={item} >{item}</option>
+                            </template>
+                        </select>
+                    </div>
+            </div>
+       </template>
+            </td>
+        
+        <td style="width:0%;">
+            <div class="form-group">
+                    <!-- <label class="slds-form-element__label slds-no-flex" style="color: blue;">Milestone Status (Owned by BM)</label> -->
+                    <div>
+                        <select class="slds-select" onchange={handlemilestoneStatus} disabled={checkstatusAccess}>
+                            <template  for:each={milestoneStatus} for:item="item">
+                                    <option key={item.label} value={item.value} selected={item.selected}>{item.label}</option>
+                            </template>
+                        </select>
+                    </div>
+            </div>
+    </td>
+    
+        <td style="width: 14%;">
+            <template if:true={displayproof}>
+                <div class="form-group">
+                        <!-- <label class="slds-form-element__label slds-no-flex">Proof of Achieved (Owned by BM)</label> -->
+                        <div>
+                            <select class="slds-select" onchange={handleproof} disabled={checkAccess}>
+                                <template  for:each={proof} for:item="item">
+                                        <option key={item} value={item} >{item}</option>
+                                </template>
+                            </select>
+                        </div>
+                </div>
+            </template>
+        </td>
+   
+        <td style="vertical-align: bottom;">
+            <!-- <label class="slds-form-element__label slds-no-flex">Milestone Objective Details/SIP Justification
+                <lightning-helptext content="Must list the detailed actions need to be done to achieve Target Milestone (Example : Win H2H and get $ PO, Block competitor and get $PO, Maintain 100% market share with $PO)"></lightning-helptext>
+            </label> -->
+            <lightning-textarea required="true" type="text" variant="label-hidden" value={localmilestone.Comments_Justifications__c} onchange={handleCommentsJust}></lightning-textarea>
+        </td>
+    </tr>
+<!-- </table> -->
+    </template>
+    <template if:false={noTamba}>
+    <tr>
+        <td style="width:1%;vertical-align: middle;">
+            <template if:true={hasDeleteAccess}>
+            <lightning-button-icon icon-name="utility:delete" variant="container" alternative-text="Delete" class="slds-m-left_xx-small" onclick={deleteSelected}></lightning-button-icon>
+            </template>
+        </td>
+        <td style="width:4%;vertical-align: middle;">
+            <template if:true={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" value={localmilestone.Name} disabled></lightning-input> <!-- value={localmilestone.Application_Name__c}-->
+            </template>
+            <template if:false={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" disabled></lightning-input> <!-- value={localmilestone.Application_Name__c}-->
+            </template>
+        </td>
+        <td style="width:7%;vertical-align: middle;">
+            <div class="form-group">
+                <!-- <label class="slds-form-element__label slds-no-flex">TAMBA ID</label> -->
+                <div>
+                    <select class="slds-select" onchange={handleTambaPicklist}>
+                        <template  for:each={tambaArray} for:item="item">
+                            <option key={item.key} value={item.key}>{item.value}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </td>
+        <td style="width:4%;vertical-align: middle;">
+            <template if:true={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" value={localmilestone.Application_Name__c} disabled></lightning-input> <!-- value={localmilestone.Application_Name__c}-->
+            </template>
+            <template if:false={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" value={fetchApplication} disabled></lightning-input> <!-- value={localmilestone.Application_Name__c}-->
+            </template>
+        </td>
+        <td style="width:5%;vertical-align: middle;">
+            <template if:true={hasRecordId}>
+                <!-- <div>
+                <label class="slds-form-element__label slds-no-flex">Customer</label>
+            </div>
+            <div>
+                <label class="slds-form-element__label slds-no-flex">Engagement</label>
+            </div> -->
+                <lightning-input type="text" variant="label-hidden" value={localmilestone.Customer_Engagement1__c} disabled></lightning-input> <!-- value={localmilestone.Customer_Engagement1__c}-->
+            </template>
+            <template if:false={hasRecordId}>
+                <!-- <div>
+                    <label class="slds-form-element__label slds-no-flex">Customer</label>
+                </div>
+                <div>
+                    <label class="slds-form-element__label slds-no-flex">Engagement</label>
+                </div> -->
+                <lightning-input type="text" variant="label-hidden" value={fetchcustomerEngagement} disabled></lightning-input> <!-- value={localmilestone.Customer_Engagement1__c}-->
+            </template>
+        </td>
+        <!--<td style="width:8%;">
+            <div class="form-group">
+                    <label class="slds-form-element__label slds-no-flex">Current Stage</label>
+                    <div>
+                        <select class="slds-select" onchange={handleStage}>
+                            <template  for:each={stage} for:item="item">
+                                    <option key={item} value={item} >{item}</option>
+                            </template>
+                        </select>
+                    </div>
+            </div>
+        </td> -->
+        <td style="width:8%;vertical-align: middle;">
+                <div class="form-group">
+                        <!-- <label class="slds-form-element__label slds-no-flex" style="color: blue;">Target Milestone</label> -->
+                        <div>
+                            <select class="slds-select" onchange={handlemilepicklist} disabled={disableSIP}>
+                                <template  for:each={milepicklist} for:item="item">
+                                        <option key={item} value={item} >{item}</option>
+                                </template>
+                            </select>
+                        </div>
+                </div>
+        </td>
+     <!-- <template if:true={displayCommentsJustification}>
+            <td>
+                <label class="slds-form-element__label slds-no-flex">Comments/Justifications</label>
+                <lightning-textarea type="text" variant="label-hidden" value={localmilestone.Comments_Justifications__c} onchange={handleCommentsJust}></lightning-textarea>
+            </td>
+        </template>-->
+        <td style="width:6%;vertical-align: middle;">
+            <!-- <label class="slds-form-element__label slds-no-flex" style="color: blue;">Milestone Due Date</label> -->
+                <lightning-input type="date" variant="label-hidden" value={localmilestone.Target_Date__c} onchange={handleTargetdate}></lightning-input>
+        </td>
+        <td style="width:2%;vertical-align: middle;">
+            <div class="form-group">
+                <!-- <label class="slds-form-element__label slds-no-flex">SIP Objective (Owned by BM)</label> -->
+                <div>
+                    <select class="slds-select" onchange={handlesipobjectives} disabled> <!-- {sipObjectivetrue} -->
+                        <template  for:each={sipobjectives} for:item="item">
+                                <option key={item} value={item} >{item}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </td>    
+        
+            <td style="vertical-align: middle;">
+                <!-- <div>
+                    <label class="slds-form-element__label slds-no-flex">Mid-year</label>
+                </div>
+                <div>
+                    <label class="slds-form-element__label slds-no-flex">SIP REQ</label>
+                </div>
+                <lightning-input disabled={MidyearSIPREQReadAccess} type="checkbox" variant="label-hidden" checked={localmilestone.Mid_year_SIP_REQ__c} onchange={handleMidYearchange}></lightning-input> -->
+                <!-- <label class="slds-form-element__label slds-no-flex">SIP REQ</label> -->
+                <template if:true={checkSIPObjectiveValue}>
+                <lightning-combobox name="sipReq" value={sipReqvalue}
+                    options={sipReqs} onchange={handlesipReqs} variant="label-hidden" disabled={onSuccessfulldemo}></lightning-combobox>
+                </template>
+                <!-- <div class="form-group">
+                    <label class="slds-form-element__label slds-no-flex">SIP REQ</label>
+                    <div>
+                        <select class="slds-select" onchange={handlesipReqs} disabled={onSuccessfulldemo}>
+                            <template  for:each={sipReqs} for:item="item">
+                                    <option key={item} value={item} >{item}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div> -->
+                
+            </td>
+            
+            <template if:false={isLite}>
+                <td style="width:7%;vertical-align: middle;">
+                    <template if:true={displayReasonComments}>
+                    <div class="form-group"> 
+                    <!-- <label class="slds-form-element__label slds-no-flex">Reason(Owned by Account)</label> -->
+                    <div>
+                    <select class="slds-select" onchange={handleReasonpicklist} disabled={ReasonReadAccess}>
+                        <template  for:each={reason} for:item="item">
+                                <option key={item} value={item} >{item}</option>
+                        </template>
+                    </select>
+                    </div>
+                    </div>
+                    </template>
+                </td> 
+            </template>
+        
+        <!-- <template if:true={displayCommentsJustification}> -->
+            <td style="width:13%;vertical-align: middle;">
+                <!-- <label class="slds-form-element__label slds-no-flex">Milestone Objective Details/SIP Justification
+                    <lightning-helptext content="Must list the detailed actions need to be done to achieve Target Milestone (Example : Win H2H and get $ PO, Block competitor and get $PO, Maintain 100% market share with $PO)"></lightning-helptext>
+                </label> -->
+                <lightning-textarea disabled={CommentsJustificationsReadAccess} type="text" variant="label-hidden" value={localmilestone.Comments_Justifications__c} onchange={handleCommentsJust} required={displayCommentsJustification}></lightning-textarea>
+            </td>
+        <!-- </template> -->
+        <td style="width:10%;vertical-align: middle;">
+                <div class="form-group">
+                        <!-- <label class="slds-form-element__label slds-no-flex" style="color: blue;">Milestone Status (Owned by BM)</label> -->
+                        <div>
+                            <select class="slds-select" onchange={handlemilestoneStatus} disabled={checkstatusAccess}>
+                                <template  for:each={milestoneStatus} for:item="item">
+                                        <option key={item.label} value={item.value} selected={item.selected}>{item.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                </div>
+        </td>
+        
+            <td style="width:10%;vertical-align: middle;">
+                <template if:true={displayproof}>
+                    <div class="form-group">
+                            <!-- <label class="slds-form-element__label slds-no-flex">Proof of Achieved (Owned by BM)</label> -->
+                            <div>
+                                <select class="slds-select" onchange={handleproof} disabled={checkAccess}>
+                                    <template  for:each={proof} for:item="item">
+                                            <option key={item} value={item} >{item}</option>
+                                    </template>
+                                </select>
+                            </div>
+                    </div>
+                </template>
+            </td>
+        
+        <td style="width:6%;vertical-align: middle;">
+            <template if:true={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" value={localmilestone.DTOR_Date__c} disabled></lightning-input> <!-- value={localmilestone.Customer_Engagement1__c}-->
+            </template>
+            <template if:false={hasRecordId}>
+                <lightning-input type="date" variant="label-hidden" value={fetchDtor} disabled></lightning-input>
+            </template>
+                
+        </td>
+        <td style="width:6%;vertical-align: middle;">
+            <template if:true={hasRecordId}>
+                <lightning-input type="text" variant="label-hidden" value={localmilestone.PTOR_Date__c} disabled></lightning-input> <!-- value={localmilestone.Customer_Engagement1__c}-->
+            </template>
+            <template if:false={hasRecordId}>
+                <lightning-input type="date" variant="label-hidden" value={fetchPtor} disabled></lightning-input>
+            </template>
+                
+        </td>
+        <td style="width:4%;vertical-align: middle;">
+            <lightning-input type="text" variant="label-hidden" value={localmilestone.Prioritized_TAMBA_FYs__c} disabled></lightning-input>
+        </td>
+        <!-- <td style="width:25%;"> -->
+        
+            <td style="width:10%;vertical-align: middle;">
+                <template if:true={displayreason}>
+                    <div class="form-group">
+                            <!-- <label class="slds-form-element__label slds-no-flex">Primary Reason for Loss (Owned by BM)</label> -->
+                            <div>
+                                <select class="slds-select" onchange={handlePrimaryReason} disabled={checkAccess}>
+                                    <template  for:each={primaryreason} for:item="item">
+                                            <option key={item} value={item} >{item}</option>
+                                    </template>
+                                </select>
+                            </div>
+                    </div>
+                </template>
+            </td>
+            <td style="width:15%;vertical-align: middle;">
+                <template if:true={displayreason}>
+                <lightning-textarea type="text" variant="label-hidden" value={localmilestone.Additional_Information__c} onchange={handleAddInfo} disabled={checkAccess}></lightning-textarea>
+            </template>
+            </td>
+        
+        <!-- </td> -->
+    </tr>
+</template>
+<!-- </table> -->
+</template>
