@@ -1,0 +1,423 @@
+<template>
+
+<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+<div class="slds-modal__container" style="--lwc-squareIconLargeBoundary: 0.5rem;
+--lwc-squareIconLargeBoundaryAlt: 0.5rem;">
+<!-- modal header start -->
+        <header class="slds-modal__header">
+                
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                <lightning-icon icon-name="utility:close"
+                alternative-text="close"
+                variant="inverse"
+                size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+        </button> 
+        <div class="slds-clearfix slds-page-header slds-page-header_record-home" style="height: 67.4349px;
+        left: -1.00781px;
+        right: 0px;
+        padding-left: 29px;
+        padding-right: 29px;
+        border-radius: 0px;
+        position: fixed;
+    z-index: 98;
+    top:-10px;">
+        <template if:true={SOOIdField}>
+        <h2 class="slds-text-heading--medium" style="color:#706e6b;text-align:left;font-weight:bold;border-bottom:1px grey;float: left;
+        margin-top: 10px;" >Sales Opportunity Optimizer™ ({SOOIdField})</h2>
+        </template>
+        <template if:false={SOOIdField}>
+                <h2 class="slds-text-heading--medium" style="color:#706e6b;text-align:left;font-weight:bold;border-bottom:1px grey;float: left;
+                margin-top: 10px;" >Sales Opportunity Optimizer™ (SOO)</h2>
+                </template>
+                <div class="slds-clearfix" style="margin-top: -3px;
+                float: right;margin-bottom: -30px">
+                        <div class="slds-float_right">
+                                <table>
+                                        <tr>
+                                          <td><template if:true={tambaRecId}>
+                                                <span class="slds-form-element__label" style="--lwc-formLabelFontSize: 15px;font-weight: bold;" for="formattedurlId">Primary TAMBA: &nbsp;
+                                                        <lightning-formatted-url id="formattedurlId" value={tambaRecId} label={tambaRecName} target="_blank" ></lightning-formatted-url>
+                                                </span>
+                                                </template>
+                                        </td>
+                                          <td>
+                                                <template if:true={pscRecId}>
+                                                <span class="slds-form-element__label" style="--lwc-formLabelFontSize: 15px;font-weight: bold;" for="formattedurlId">Primary Product Scorecard: &nbsp;
+                                                <lightning-formatted-rich-text value={pscRecName}></lightning-formatted-rich-text>
+                                                <!-- <lightning-formatted-url value={pscRecId} label={pscRecName} target="_blank" ></lightning-formatted-url> -->
+                                                </span>
+                                        </template>
+                                </td>    
+                                        </tr>
+                                        <tr>
+                                          <td  colspan="2"><b>Reminder: Fields shown in</b><b style="color:blue">&nbsp;blue&nbsp;</b><b>text count towards % of SOO Completion</b></td>   
+                                        </tr>
+                                      </table>
+                        </div>
+                        </div>
+        </div>
+        <!--<div class="slds-modal__content slds-p-around_medium"> -->
+<div class="MainTabSet">
+        <lightning-tabset active-tab-value={activeTabTopLevel} >
+                <!-- style="--lwc-colorGray2:#4599c3;" -->
+        <lightning-tab label="Basic Info" value="1" onactive={handleParentActive}>
+                
+                <lightning-record-edit-form object-api-name="SOO__c" onload={handleLoad} onsubmit={handleSubmit}  onsuccess={handleSuccess} record-id={recordId} onerror={handleError}> <!-- onsubmit={handleSubmit}-->
+                <lightning-messages></lightning-messages> 
+                <article class="slds-tabs_card" style="margin-top: 10px;--lwc-varSpacingVerticalSmall: 0;--lwc-varSpacingHorizontalMedium: 0;">
+                        <div class="slds-card__header slds-grid" style="padding: 0.5rem;background-color:rgb(69, 153, 195);">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                                <h2 class="slds-card__header-title" style="color: white;">
+                                                    <span>Section 1. Background</span>
+                                                </h2>
+                                </header>
+                        </div>
+                        <div class="slds-card__body" style="padding-left: 1rem;
+                        padding-right: 1rem; padding-bottom: 0.5rem;">
+                        <div class="slds-section slds-is-open">
+                                <div style="display: none;">
+                                        <lightning-input-field field-name="Primary_Product_Scorecard__c"></lightning-input-field>
+                                        <lightning-input-field field-name="SOOClone__c"></lightning-input-field> 
+                                </div>
+                        <!-- <h3 class="slds-section__title">
+                                <lightning-button class="slds-button slds-section__title-action" style="--sds-c-button-text-color: white; background-color:#2b2b6a" variant="base" label="Section 1. Background">
+                                </lightning-button> -->
+                                <!-- <button aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action" style="background:#2b2b6a">
+                                <span class="slds-truncate" title="Background" style="text-align:left;color:#FFFFFF;height: 30px;text-transform:None;font-size: 15px;">Background</span>
+                                </button> -->
+                        <!-- </h3> -->
+                        <!-- <template if:true={recordId}> -->
+                                <!-- <div class="slds-col" style="width: 33%;">
+                                        <div style="display: flex;">
+                                        <span class="slds-form-element__label">SOO ID :</span>
+                                        <lightning-output-field style="padding: 3px;" field-name="SOO_ID__c" variant="label-hidden"></lightning-output-field>
+                                        </div>
+                                </div>
+                                <div class="slds-col" style="width: 33%;"></div>
+                                <div class="slds-col" style="width: 33%;"></div> -->
+                        <!-- </template> -->
+                        <table style="width:100%">
+                                <tr>
+                                  <td class="tdPaddingclass">           
+                                 <lightning-input-field field-name="Account__c" required data-id="accountInfo" onchange={handleSOOName} variant="label-stacked"></lightning-input-field>
+                                  </td>
+                                  <td class="tdPaddingclass">
+                                        <lightning-input-field field-name="Segment__c" onchange={handleSegmentchange} variant="label-stacked"></lightning-input-field>
+                                  </td>
+                                  <td class="tdPaddingclass">
+                                        <lightning-input-field field-name="Date__c" required variant="label-stacked"></lightning-input-field>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td rowspan="3"  class="tdPaddingclass">
+                                        <lightning-dual-listbox name="ParentFab"
+                                        class="No_bold_class"
+                                        label="Parent Fab"
+                                        size="4"
+                                        disable-reordering
+                                        source-label="Available"
+                                        selected-label="Chosen"
+                                        field-level-help="Select Parent Fabs"
+                                        options={parentFabOptions}
+                                        value={_parentFabsselected}
+                                        onchange={handleParentFabChange}
+                                        style="--lwc-colorTextLabel:blue;"></lightning-dual-listbox>
+                                  </td>
+                                  <td rowspan="3" class="tdPaddingclass">
+                                        <lightning-input-field class="No_bold_class" field-name="Business_Unit__c" variant="label-stacked" required data-id="businessUnit" onchange={handleSOOName}></lightning-input-field>
+                                  </td>
+                                  <td class="tdPaddingclass" style="width:35%">
+                                        <span class="slds-form-element__label" style="color: blue;">SOO Name : Customer/Fab/Device/Node/Application/Product/Objective</span>
+                                        <lightning-input-field field-name="Name" value={sooName} required variant="label-hidden"></lightning-input-field></td>
+                                </tr>
+                                <tr>
+                                  <td class="tdPaddingclass">
+                                        <!-- <span class="slds-form-element__label"><span style="color:red;">*</span>BU BM</span> -->
+                                        <lightning-input-field field-name="BM_Person__c" required onchange={hanldeBMChange}></lightning-input-field></td>
+                                </tr>
+                                 <tr>
+                                  <td class="tdPaddingclass"><lightning-input-field field-name="Sales_Person__c" required variant="label-stacked"></lightning-input-field></td>
+                                </tr>
+                                 <tr>
+                                  <!-- <td class="tdPaddingclass" style="vertical-align: top;">
+                                        <lightning-input-field field-name="TAMBA__c" variant="label-stacked" disabled></lightning-input-field>  
+                                  </td> -->
+                                  <td class="tdPaddingclass" style="vertical-align: top;">
+                                        <span class="slds-form-element__label">SOO Overall Business Status by BU BM (Owned by BM)</span>
+                                        <lightning-input-field field-name="SOO_Overall_Business_Status__c" variant="label-hidden"></lightning-input-field>
+                                  </td>
+                                  <td class="tdPaddingclass"><span class="slds-form-element__label">SOO Status Comments by BU BM (Owned by BM)</span>
+                                        <lightning-input-field field-name="SOO_Status_Comments_by_BU_BM__c" variant="label-hidden"></lightning-input-field>
+                                </td>
+                                </tr>
+                        </table>
+                </div>
+                </div>
+                </article>
+                <article class="slds-tabs_card" style="margin-top: 10px;--lwc-varSpacingVerticalSmall: 0;--lwc-varSpacingHorizontalMedium: 0;">
+                        <div class="slds-card__header slds-grid" style="padding: 0.5rem;background-color:rgb(69, 153, 195);">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                                <h2 class="slds-card__header-title" style="color: white;">
+                                                    <span>Section 2. Additional Team Members</span>
+                                                </h2>
+                                </header>
+                        </div>
+                        <div class="slds-card__body" style="padding-left: 1rem;
+                        padding-right: 1rem; padding-bottom: 0.5rem;">
+                <div class="slds-section slds-is-open">
+                        <!-- <h3 class="slds-section__title">
+                                <button aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action" style="background:#2b2b6a">
+                                <span class="slds-truncate" title="Internal Team" style="text-align:left;color:#FFFFFF;height: 30px;text-transform:None;font-size: 15px;">Section 2. Additional Team Members</span>
+                                </button>
+                        </h3> -->
+                        <div class="slds-grid slds-gutters">
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label" >Sales</span>
+                                        <lightning-input-field field-name="Team_Member_1__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">Sales</span>
+                                        <lightning-input-field field-name="Team_Member_2__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">Sales</span>
+                                        <lightning-input-field field-name="Team_Member_3__c" variant="label-hidden"></lightning-input-field>
+                                </div>                                                                
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">BM</span>
+                                        <lightning-input-field field-name="Team_Member_4__c" variant="label-hidden" disabled></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">BM</span>
+                                        <lightning-input-field field-name="Team_Member_5__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">TD</span>
+                                        <lightning-input-field field-name="TD__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label" style="color: blue;">PSE</span>
+                                        <lightning-input-field field-name="Team_Member_6__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">PSE</span>
+                                        <lightning-input-field field-name="Team_Member_7__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label" style="color: blue;">GPM</span>
+                                        <lightning-input-field field-name="Team_Member_8__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">CAT</span>
+                                        <lightning-input-field field-name="Team_Member_9__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                        <span class="slds-form-element__label">Others</span>
+                                        <lightning-input-field field-name="Others__c" variant="label-hidden"></lightning-input-field>
+                                </div>
+                                <div class="slds-col" style="text-align:center;width: 33%;">
+                                </div>
+                        </div>
+                </div>
+                </div>
+                </article>
+                <div style="display: none;">
+                        <lightning-button id="submitButton" class="submitButton" type="submit" name="update" label="Save & Next"> </lightning-button>
+                </div>
+                </lightning-record-edit-form>
+                
+        </lightning-tab>
+        <template if:true={showtambatagging}>
+                <lightning-tab label="TAMBA and Competitor Information" value="2" onactive={handleParentActive}>
+                        
+                        <div style="text-align:center;">
+                                <span class="slds-badge slds-theme_success" style="--slds-c-badge-font-size:16px;">
+                                        <span class="slds-badge__icon slds-badge__icon_left slds-badge__icon_inverse">
+                                        <span class="slds-icon_container slds-icon-utility-moneybag slds-current-color" title="This tab is for SOO w/ TAMBA only">
+                                                <lightning-icon icon-name="utility:info_alt" alternative-text="Information" title="Information" size="x-small"></lightning-icon>
+                                        </span>
+                                        </span>This tab is for SOO w/ TAMBA only</span>
+                                </div>
+                        <c-sootagging tamba-rec-id={tambaRecId} tamba-rec-name={tambaRecName} record-id={recordId} account-id={AccountId} ontambaselected={handleTambaselected} onsave={handleSave}></c-sootagging>
+                </lightning-tab>
+        </template>
+        <!-- <template if:true={hasPSC}>
+                <lightning-tab label="Primary Product Scorecard (PSC)" value="3" onactive={handleParentActive}>
+                        <div>
+                                <c-sooproductscorecard record-id={recordId} pscid={pscId} onsave={handleSave}></c-sooproductscorecard>
+                        </div>
+                </lightning-tab>
+        </template> -->
+        <template if:true={isUpdate}>
+        <lightning-tab label="R&D" value="4" onactive={handleParentActive}>
+                
+        <template if:true={hasAccess}>
+                <div class="RDTabSet">
+        <lightning-tabset active-tab-value={activeTab}>
+                <div class="RDinnerTabs">
+                <lightning-tab label="Milestone" value="1" onactive={handleActive}> 
+                <div style="width: 150%;">
+                <template if:true={tambaselected}>
+                        <c-soomilestones record-id={recordId} type="RD" tambarecords={tambaselected} onsave={handleSave}></c-soomilestones>
+                </template>
+                </div>
+                </lightning-tab>
+               
+        <lightning-tab label="Decision Makers" value="2" onactive={handleActive}>
+                <div>
+                        <c-soodecisionmakers record-id={recordId} type="RD" onsave={handleSave}></c-soodecisionmakers>
+                </div>
+                <br>
+                <br>
+                <br>
+                <div>
+                        <c-soodecisionmakertasks record-id={recordId} type="RD" onsave={handleSave}></c-soodecisionmakertasks>
+                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                </div>
+        </lightning-tab>
+        <lightning-tab label="HVPs" value="3" onactive={handleActive}>
+                <div>
+                        <c-soohvps record-id={recordId} type="RD" onsave={handleSave}></c-soohvps>
+                </div>
+        </lightning-tab>
+        <lightning-tab label="Area of Strength" value="4" onactive={handleActive}>
+                <div>
+                        <c-sooareastrength record-id={recordId} type="RD" onsave={handleSave}></c-sooareastrength>
+                </div>
+        </lightning-tab>
+        <lightning-tab label="Red Flags & Barriers // Strategies To Overcome" value="5" onactive={handleActive}>
+                <div>
+                        <c-sooredflagstrategy record-id={recordId} type="RD" onsave={handleSave}></c-sooredflagstrategy>
+                </div>
+        </lightning-tab>
+        <lightning-tab label="Action Items for Red Flags and Strategies" value="6" onactive={handleActive}>
+                <div>
+                        <c-sootasks record-id={recordId} type="RD" onsave={handleSave}></c-sootasks>
+                </div>
+        </lightning-tab>
+        <lightning-tab label="BU GM Help Needed" value="7" onactive={handleActive}>
+                <div>
+                        <c-sooexecutivehelp record-id={recordId} type="RD" onsave={handleSave}></c-sooexecutivehelp>
+                </div>
+        </lightning-tab>
+        <lightning-tab label="EVA, VPS & Pricing Strategy" value="8" onactive={handleActive}>
+                <div>
+                        <c-sooeconomicvalue customerengagement={CustomerEngagement} record-id={recordId} type="RD" onsave={handleSave}></c-sooeconomicvalue>
+                </div>
+        </lightning-tab>
+</div> 
+        </lightning-tabset>
+</div>
+        </template>
+        </lightning-tab>
+
+        <lightning-tab label="Production" value="5" onactive={handleParentActive}>
+                
+                <template if:true={hasAccess}>
+                        <div class="ProdTabSet">
+                        <lightning-tabset active-tab-value={activeTab}>
+                                <div class="ProdinnerTabs">
+                        <template if:true={tambaselected}>
+                                <div style="width: 150%;">
+                                <lightning-tab label="Milestone" value="1" onactive={handleActive}>
+                                        <c-soomilestones record-id={recordId} type="Production" tambarecords={tambaselected} onsave={handleSave} onhaserror={handlenotambaerror}></c-soomilestones>
+                                </lightning-tab>
+                                </div>
+                        </template>
+                        <lightning-tab label="Decision Makers" value="2" onactive={handleActive}>
+                                <div>
+                                        <c-soodecisionmakers record-id={recordId} type="Production" onsave={handleSave}></c-soodecisionmakers>
+                                </div>
+                                <br>
+                <br>
+                <br>
+                                <div>
+                                        <c-soodecisionmakertasks record-id={recordId} type="Production" onsave={handleSave}></c-soodecisionmakertasks>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                </div>
+                        </lightning-tab>
+                        <lightning-tab label="HVPs" value="3" onactive={handleActive}>
+                                <div>
+                                        <c-soohvps record-id={recordId} type="Production" onsave={handleSave}></c-soohvps>
+                                </div>
+                        </lightning-tab>
+                        <lightning-tab label="Area of Strength" value="4" onactive={handleActive}>
+                                <div>
+                                        <c-sooareastrength record-id={recordId} type="Production" onsave={handleSave}></c-sooareastrength>
+                                </div>
+                        </lightning-tab>
+                        <lightning-tab label="Red Flags & Barriers // Strategies To Overcome" value="5" onactive={handleActive}>
+                                <div>
+                                        <c-sooredflagstrategy record-id={recordId} type="Production" onsave={handleSave}></c-sooredflagstrategy>
+                                </div>
+                        </lightning-tab>
+                        <lightning-tab label="Action Items for Red Flags and Strategies" value="6" onactive={handleActive}>
+                                <div>
+                                        <c-sootasks record-id={recordId} type="Production" onsave={handleSave}></c-sootasks>
+                                </div>
+                        </lightning-tab>
+                        <lightning-tab label="BU GM Help Needed" value="7" onactive={handleActive}>
+                                <div>
+                                        <c-sooexecutivehelp record-id={recordId} type="Production" onsave={handleSave}></c-sooexecutivehelp>
+                                </div>
+                        </lightning-tab>
+                        <!--<template if:true={hasPSC}>
+                                <lightning-tab label="Product Scorecard (PSC)" value="8" onactive={handleActive}>
+                                        <div>
+                                                <c-sooproductscorecard record-id={recordId} pscid={pscId} onsave={handleSave}></c-sooproductscorecard>
+                                        </div>
+                                </lightning-tab>
+                        </template>-->
+                        <lightning-tab label="EVA, VPS & Pricing Strategy" value="8" onactive={handleActive}>
+                                <div>
+                                        <c-sooeconomicvalue customerengagement={CustomerEngagement} record-id={recordId} type="Production" onsave={handleSave}></c-sooeconomicvalue>
+                                </div>
+                        </lightning-tab>
+                </div>
+                        </lightning-tabset>
+                </div>
+                </template>
+        </lightning-tab>
+        </template>
+
+        </lightning-tabset>
+</div>
+        </header>
+<!--<lightning-tabset active-tab-value={activeTab}>
+
+
+</lightning-tabset> -->
+        <footer class="slds-modal__footer"> <!-- -->
+                <!-- <template if:true={displaySave}>
+                <button class="slds-button slds-button_neutral" onclick={save}>Save</button>
+                </template>-->
+                
+                <template if:true={showSpinner}>
+                        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </template>
+                <template if:false={isEVAProdTab}>
+                                <button class="slds-button slds-button_neutral" onclick={savemodal}>Save & Next Tab</button>
+                </template>
+                        <button class="slds-button slds-button_neutral" onclick={completemodal}>Save & Close</button>
+                        <button class="slds-button slds-button_neutral" onclick={cancelmodal}>Cancel</button>
+                
+        </footer>
+</div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
